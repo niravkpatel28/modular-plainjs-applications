@@ -1,6 +1,11 @@
 import { generateUniqueId } from "../../utils/generateUniqueId.js";
 
 class Counter {
+  // count: number;
+  // counterAppId: string;
+  private count: number;
+  private counterAppId: string;
+
   constructor() {
     this.count = 0;
     this.counterAppId = generateUniqueId({ prefix: "counterApp" });
@@ -17,15 +22,22 @@ class Counter {
   }
   updateCount() {
     // find the element and update it
-    let displayCount = document.querySelector(`#${this.counterAppId} p`);
-    displayCount.innerText = `Count  ${this.count}`;
+    let displayCount: HTMLElement | null = document.querySelector(
+      `#${this.counterAppId} p`,
+    );
+    // to avoid display count as null
+    if (displayCount) {
+      return (displayCount.innerText = `Count  ${this.count}`);
+    }
+
+    throw new Error("Count element not found");
   }
 
   render() {
-    const counterAppDiv = document.createElement("div");
-    const countDisplay = document.createElement("p");
-    const incrementButton = document.createElement("button");
-    const decrementButton = document.createElement("button");
+    const counterAppDiv: HTMLDivElement = document.createElement("div");
+    const countDisplay: HTMLParagraphElement = document.createElement("p");
+    const incrementButton: HTMLButtonElement = document.createElement("button");
+    const decrementButton: HTMLButtonElement = document.createElement("button");
 
     // add id and text
     counterAppDiv.id = this.counterAppId;
@@ -49,12 +61,13 @@ class Counter {
     return counterAppDiv;
   }
 
-  mount(el) {
+  mount(el?: HTMLElement) {
     if (el) {
       return el.appendChild(this.render());
     }
     // if no element is passed
-    const counterAppContainer = document.createElement("div");
+    const counterAppContainer: HTMLDivElement = document.createElement("div");
+
     counterAppContainer.id = generateUniqueId({
       prefix: "counterAppContainer",
     });

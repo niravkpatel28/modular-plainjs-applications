@@ -1,4 +1,4 @@
-import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { generateUniqueId } from "../../utils/generateUniqueId";
 
 class Question {
   constructor({ text, options, points }) {

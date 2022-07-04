@@ -1,5 +1,5 @@
 //create a result Modal
-import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { generateUniqueId } from "../../utils/generateUniqueId";
 class Result {
   constructor({ header, score, footer }) {
     this.header = header;

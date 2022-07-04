@@ -1,4 +1,4 @@
-import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { generateUniqueId } from "../../utils/generateUniqueId";
 import { Result } from "./Result.js";
 class Quiz {
   constructor({ quizTitle, questions }) {

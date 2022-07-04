@@ -1,0 +1,19 @@
+{
+  "name": "00-test",
+  "version": "1.0.0",
+  "description": "Testing modularization of components ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ts",
+    "modular",
+    "components",
+    "object",
+    "oriented",
+    "javascript"
+  ],
+  "author": "Nirav Patel",
+  "license": "ISC"
+}

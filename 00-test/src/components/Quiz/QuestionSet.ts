@@ -1,6 +1,6 @@
 // create a list of questions for the quiz and export that
-import { Question } from "./Question.js";
-import { Option } from "./Option.js";
+import { Question } from "./Question";
+import { Option } from "./Option";
 
 export const questions = [
   new Question({
