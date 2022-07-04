@@ -1,7 +1,18 @@
 //create a result Modal
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
+
+type ResultConfig = {
+  header: string;
+  score: number;
+  footer: string;
+};
 class Result {
-  constructor({ header, score, footer }) {
+  header: string;
+  footer: string;
+  score: number;
+  modalId: string;
+
+  constructor({ header, score, footer }: ResultConfig) {
     this.header = header;
     this.footer = footer;
     this.score = score;
@@ -11,7 +22,7 @@ class Result {
   }
 
   closeModal() {
-    document.getElementById(this.modalId).remove();
+    (document.getElementById(this.modalId) as HTMLElement).remove();
   }
 
   render() {

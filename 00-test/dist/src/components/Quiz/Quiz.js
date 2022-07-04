@@ -3,7 +3,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
 import { Result } from "./Result.js";
 var Quiz = /** @class */ (function () {
     function Quiz(_a) {
@@ -28,11 +28,13 @@ var Quiz = /** @class */ (function () {
         // calculate final score==>
         this.questions.forEach(function (question) {
             console.log("Selected answers", question.selectedOption);
-            if (question.selectedOption.isCorrect) {
+            // incase no option is selected
+            if (question.selectedOption && question.selectedOption.isCorrect) {
                 _this.finalScore = _this.finalScore + question.points;
             }
         });
         var submitButton = document.querySelector("#" + this.quizId + " button[type=\"submit\"]");
+        // what will this element be
         submitButton.disabled = this.isSubmitted;
         // create a result modal and display it
         var result = new Result({
@@ -73,6 +75,7 @@ var Quiz = /** @class */ (function () {
         quizAppContainer.id = generateUniqueId({
             prefix: "quizAppContainer",
         });
+        quizAppContainer.classList.add("quizContainer");
         // add the counter app to div
         quizAppContainer.appendChild(this.render());
         document.body.appendChild(quizAppContainer);

@@ -1,19 +1,35 @@
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { Option } from "./Option.js";
+
+type QuestionConfig = {
+  text: string;
+  options: Option[];
+  points: number;
+};
 
 class Question {
-  constructor({ text, options, points }) {
+  questionId: string;
+  questionText: string;
+  options: Array<Option>;
+  points: number;
+  // this is not initialized in the constructor but will definitely get a value
+  selectedOption!: Option | undefined;
+  isAnswered: boolean;
+  isAnsweredCorrectly: boolean | null;
+
+  constructor({ text, options, points }: QuestionConfig) {
     this.questionId = generateUniqueId({ prefix: "question" });
     this.questionText = text;
     this.options = [...options];
     this.points = points;
-    this.selectedOption = {};
+    // this.selectedOption =;
     // this.selectedOptionId = "";
     this.isAnswered = false;
     // initialized to nothing
     this.isAnsweredCorrectly = null;
   }
 
-  selectAnswer(event) {
+  selectAnswer(event: any) {
     // this will be bound to the onSelect option of the input box
     const {
       target: { id: selectedOptionId },
@@ -27,7 +43,7 @@ class Question {
     // console.log("======Selected option", this.selectedOption);
     this.isAnswered = true;
     // is this question answered correctly
-    this.isAnsweredCorrectly = this.selectedOption.isCorrect;
+    this.isAnsweredCorrectly = this.selectedOption!.isCorrect;
   }
 
   render() {
@@ -43,10 +59,10 @@ class Question {
 
     // each option will have to be rendered using some li
     // this can be abstracted to Option itself but currently its put in questions
-    this.options.forEach((option) => {
-      let optionList = document.createElement("li");
-      let optionInput = document.createElement("input");
-      let optionLabel = document.createElement("label");
+    this.options.forEach((option: Option) => {
+      let optionList: HTMLLIElement = document.createElement("li");
+      let optionInput: HTMLInputElement = document.createElement("input");
+      let optionLabel: HTMLLabelElement = document.createElement("label");
 
       // add ids to input and attach labels to input
       // this comes from option class.
@@ -57,10 +73,10 @@ class Question {
 
       // attach event listeners
       optionInput.onchange = this.selectAnswer.bind(this);
+      optionInput.value = JSON.stringify(option);
 
       // incase multiple options have the same id
       optionLabel.htmlFor = option.optionId;
-      optionLabel.value = JSON.stringify(option);
       optionLabel.innerText = option.optionText;
 
       // attach each of these to the optionsContainer
@@ -76,10 +92,11 @@ class Question {
     questionContainer.appendChild(questionText);
     questionContainer.appendChild(optionsContainer);
 
+    questionContainer.classList.add("question");
     return questionContainer;
   }
 
-  mount(el) {
+  mount(el: HTMLElement) {
     if (el) {
       return el.appendChild(this.render());
     }

@@ -1,6 +1,6 @@
 // create a list of questions for the quiz and export that
-import { Question } from "./Question";
-import { Option } from "./Option";
+import { Question } from "./Question.js";
+import { Option } from "./Option.js";
 export var questions = [
     new Question({
         text: "An equilateral triangle has?",

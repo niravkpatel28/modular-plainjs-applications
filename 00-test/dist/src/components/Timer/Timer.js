@@ -1,10 +1,10 @@
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
 var Timer = /** @class */ (function () {
     function Timer() {
         // this.minute = 0;
         this.sec = 0;
         this.timerStarted = false;
-        this.intervalId = "";
+        this.intervalId = null;
         this.timerAppId = generateUniqueId({ prefix: "timerApp" });
     }
     Timer.prototype.startTimer = function () {
@@ -26,7 +26,7 @@ var Timer = /** @class */ (function () {
         this.timerStarted = false;
         clearInterval(this.intervalId);
         this.updateTimer();
-        this.timeOutId = "";
+        this.intervalId = null;
     };
     Timer.prototype.resetTimer = function () {
         console.log("Timer " + this.timerAppId + " reset");
@@ -35,13 +35,16 @@ var Timer = /** @class */ (function () {
         this.sec = 0;
         if (this.intervalId) {
             clearTimeout(this.intervalId);
-            this.intervalId = "";
+            this.intervalId = null;
         }
         this.updateTimer();
     };
     Timer.prototype.updateTimer = function () {
         var displayTimer = document.querySelector("#" + this.timerAppId + " p");
-        displayTimer.innerText = "Seconds : " + this.sec;
+        if (displayTimer) {
+            return (displayTimer.innerText = "Seconds : " + this.sec);
+        }
+        throw new Error("Element not found");
     };
     Timer.prototype.render = function () {
         // create Markup

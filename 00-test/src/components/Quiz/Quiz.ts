@@ -1,21 +1,36 @@
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { Question } from "./Question.js";
 import { Result } from "./Result.js";
+
+type QuizConfig = {
+  quizTitle: string;
+  questions: Question[];
+};
 class Quiz {
-  constructor({ quizTitle, questions }) {
+  quizId: string;
+  quizTitle: string;
+  questions: Question[];
+  isSubmitted: boolean;
+  finalScore: number;
+
+  private totalPoints: number;
+  constructor({ quizTitle, questions }: QuizConfig) {
     this.quizId = generateUniqueId({ prefix: "quiz" });
     this.quizTitle = quizTitle;
     this.questions = [...questions];
 
     //each value is a question object
-    this.totalPoints = this.questions.reduce((previousValue, currentValue) => {
-      return previousValue + currentValue.points;
-    }, 0);
-
+    this.totalPoints = this.questions.reduce(
+      (previousValue, currentValue: Question) => {
+        return previousValue + currentValue.points;
+      },
+      0,
+    );
     this.isSubmitted = false;
     this.finalScore = 0;
   }
 
-  submitQuiz(event) {
+  submitQuiz(event: Event) {
     event.preventDefault();
 
     if (!window.confirm("Are you sure you want to submit the quiz?")) {
@@ -27,7 +42,9 @@ class Quiz {
     // calculate final score==>
     this.questions.forEach((question) => {
       console.log("Selected answers", question.selectedOption);
-      if (question.selectedOption.isCorrect) {
+
+      // incase no option is selected
+      if (question.selectedOption && question.selectedOption!.isCorrect) {
         this.finalScore = this.finalScore + question.points;
       }
     });
@@ -35,7 +52,8 @@ class Quiz {
     const submitButton = document.querySelector(
       `#${this.quizId} button[type="submit"]`,
     );
-    submitButton.disabled = this.isSubmitted;
+    // what will this element be
+    (submitButton! as HTMLButtonElement).disabled = this.isSubmitted;
 
     // create a result modal and display it
     const result = new Result({
@@ -74,7 +92,7 @@ class Quiz {
     return quizForm;
   }
 
-  mount(el) {
+  mount(el?: HTMLElement) {
     if (el) {
       return el.appendChild(this.render());
     }
@@ -84,6 +102,7 @@ class Quiz {
       prefix: "quizAppContainer",
     });
 
+    quizAppContainer.classList.add("quizContainer");
     // add the counter app to div
     quizAppContainer.appendChild(this.render());
     document.body.appendChild(quizAppContainer);

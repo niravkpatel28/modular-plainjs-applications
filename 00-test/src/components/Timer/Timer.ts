@@ -1,11 +1,16 @@
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
 
 class Timer {
+  private sec: number;
+  private timerStarted: boolean;
+  private intervalId: number | null;
+  private timerAppId: string;
+
   constructor() {
     // this.minute = 0;
     this.sec = 0;
     this.timerStarted = false;
-    this.intervalId = "";
+    this.intervalId = null;
     this.timerAppId = generateUniqueId({ prefix: "timerApp" });
   }
 
@@ -30,9 +35,9 @@ class Timer {
     console.log(`Timer ${this.timerAppId} paused`);
 
     this.timerStarted = false;
-    clearInterval(this.intervalId);
+    clearInterval(this.intervalId as number);
     this.updateTimer();
-    this.timeOutId = "";
+    this.intervalId = null;
   }
 
   resetTimer() {
@@ -42,14 +47,19 @@ class Timer {
     this.sec = 0;
     if (this.intervalId) {
       clearTimeout(this.intervalId);
-      this.intervalId = "";
+      this.intervalId = null;
     }
     this.updateTimer();
   }
 
   updateTimer() {
-    let displayTimer = document.querySelector(`#${this.timerAppId} p`);
-    displayTimer.innerText = `Seconds : ${this.sec}`;
+    let displayTimer: HTMLElement | null = document.querySelector(
+      `#${this.timerAppId} p`,
+    );
+    if (displayTimer) {
+      return (displayTimer.innerText = `Seconds : ${this.sec}`);
+    }
+    throw new Error("Element not found");
   }
 
   render() {
@@ -88,7 +98,7 @@ class Timer {
     return timerAppDiv;
   }
 
-  mount(el) {
+  mount(el?: HTMLElement) {
     if (el) {
       return el.appendChild(this.render());
     }

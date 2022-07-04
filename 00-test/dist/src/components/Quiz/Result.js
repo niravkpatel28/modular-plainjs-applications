@@ -1,5 +1,5 @@
 //create a result Modal
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
 var Result = /** @class */ (function () {
     function Result(_a) {
         var header = _a.header, score = _a.score, footer = _a.footer;

@@ -3,7 +3,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
-import { generateUniqueId } from "../../utils/generateUniqueId";
+import { generateUniqueId } from "../../utils/generateUniqueId.js";
 var Question = /** @class */ (function () {
     function Question(_a) {
         var text = _a.text, options = _a.options, points = _a.points;
@@ -11,7 +11,7 @@ var Question = /** @class */ (function () {
         this.questionText = text;
         this.options = __spreadArray([], options);
         this.points = points;
-        this.selectedOption = {};
+        // this.selectedOption =;
         // this.selectedOptionId = "";
         this.isAnswered = false;
         // initialized to nothing
@@ -50,9 +50,9 @@ var Question = /** @class */ (function () {
             optionInput.type = "radio";
             // attach event listeners
             optionInput.onchange = _this.selectAnswer.bind(_this);
+            optionInput.value = JSON.stringify(option);
             // incase multiple options have the same id
             optionLabel.htmlFor = option.optionId;
-            optionLabel.value = JSON.stringify(option);
             optionLabel.innerText = option.optionText;
             // attach each of these to the optionsContainer
             optionList.appendChild(optionInput);
@@ -64,6 +64,7 @@ var Question = /** @class */ (function () {
         // adding all elements to the question container
         questionContainer.appendChild(questionText);
         questionContainer.appendChild(optionsContainer);
+        questionContainer.classList.add("question");
         return questionContainer;
     };
     Question.prototype.mount = function (el) {

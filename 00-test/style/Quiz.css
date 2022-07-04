@@ -1,0 +1,15 @@
+.quizContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: black; */
+}
+
+.question {
+  width: 80%;
+}
+
+.question li {
+  list-style: none;
+  margin: 0px;
+}
