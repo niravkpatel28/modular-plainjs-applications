@@ -32,4 +32,5 @@ const quiz1 = new Quiz({
   quizTitle: "Fundamentals of Mathematics",
 });
 
+console.log(JSON.stringify(quiz1));
 quiz1.mount();

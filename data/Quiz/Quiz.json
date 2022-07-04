@@ -1,0 +1,96 @@
+{
+  "quizId": "quiz-458g6c4jocv",
+  "quizTitle": "Fundamentals of Mathematics",
+  "questions": [
+    {
+      "questionId": "question-bf7vbfmnz4f",
+      "questionText": "An equilateral triangle has?",
+      "options": [
+        {
+          "optionId": "option-30isc18p2v",
+          "optionText": "Two sides equal",
+          "isCorrect": false
+        },
+        {
+          "optionId": "option-dog8wy02iiq",
+          "optionText": "All three sides unequal.",
+          "isCorrect": false
+        },
+        {
+          "optionId": "option-l28opw9ocis",
+          "optionText": "All three sides equal",
+          "isCorrect": true
+        },
+        {
+          "optionId": "option-wk9my9negkg",
+          "optionText": "None of these",
+          "isCorrect": false
+        }
+      ],
+      "points": 1,
+      "isAnswered": false,
+      "isAnsweredCorrectly": null
+    },
+    {
+      "questionId": "question-66l83nvndpb",
+      "questionText": "What is the formula for area of rectangle? ",
+      "options": [
+        {
+          "optionId": "option-g96xy3crsjp",
+          "optionText": "Length x Breadth",
+          "isCorrect": true
+        },
+        {
+          "optionId": "option-599i9be9mk8",
+          "optionText": "Breadth + Length",
+          "isCorrect": false
+        },
+        {
+          "optionId": "option-zpepuojw46f",
+          "optionText": "Breadth x 2 + Length ",
+          "isCorrect": false
+        },
+        {
+          "optionId": "option-gxyc41u3t14",
+          "optionText": "None of these",
+          "isCorrect": false
+        }
+      ],
+      "points": 1,
+      "isAnswered": false,
+      "isAnsweredCorrectly": null
+    },
+    {
+      "questionId": "question-1jlv0j4moc7j",
+      "questionText": "What is 2+2?",
+      "options": [
+        {
+          "optionId": "option-7qblidstajv",
+          "optionText": "4",
+          "isCorrect": true
+        },
+        {
+          "optionId": "option-tsaxz8jjfrp",
+          "optionText": "2",
+          "isCorrect": false
+        },
+        {
+          "optionId": "option-lji49sm8t1",
+          "optionText": "1",
+          "isCorrect": false
+        },
+        {
+          "optionId": "option-89w1pzzjroc",
+          "optionText": "0",
+          "isCorrect": false
+        }
+      ],
+      "points": 1,
+      "isAnswered": false,
+      "isAnsweredCorrectly": null
+    }
+  ],
+  "totalPoints": 3,
+  "isSubmitted": false,
+  "finalScore": 0
+}
