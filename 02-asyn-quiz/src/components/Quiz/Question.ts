@@ -1,4 +1,5 @@
 import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { Component } from "../ComponentInterface/ComponentInterface.js";
 import { Option } from "./Option.js";
 
 type QuestionConfig = {
@@ -7,7 +8,7 @@ type QuestionConfig = {
   points: number;
 };
 
-class Question {
+class Question implements Component {
   questionId: string;
   questionText: string;
   options: Array<Option>;
@@ -96,7 +97,7 @@ class Question {
     return questionContainer;
   }
 
-  mount(el: HTMLElement) {
+  mount(el?: HTMLElement) {
     if (el) {
       return el.appendChild(this.render());
     }

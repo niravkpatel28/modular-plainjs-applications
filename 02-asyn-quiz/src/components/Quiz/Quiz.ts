@@ -1,4 +1,5 @@
 import { generateUniqueId } from "../../utils/generateUniqueId.js";
+import { Component } from "../ComponentInterface/ComponentInterface.js";
 import { Question } from "./Question.js";
 import { Result } from "./Result.js";
 
@@ -6,7 +7,7 @@ type QuizConfig = {
   quizTitle: string;
   questions: Question[];
 };
-class Quiz {
+class Quiz implements Component {
   quizId: string;
   quizTitle: string;
   questions: Question[];
