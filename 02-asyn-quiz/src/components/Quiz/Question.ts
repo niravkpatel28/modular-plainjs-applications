@@ -14,7 +14,13 @@ class Question implements Component {
   options: Array<Option>;
   points: number;
   // this is not initialized in the constructor but will definitely get a value
-  selectedOption!: Option | undefined;
+  // selectedOption!: Option | undefined;
+  // initializing the selected option array to empty array.
+  // here since we are considering multiple correct answers
+  // the idea is to add all the selected options into the array
+  // another technique can be to add only the optionId into the array.
+  // This can be modified based on the complexity of the logic
+  selectedOption: Option[];
   isAnswered: boolean;
   isAnsweredCorrectly: boolean | null;
 
@@ -25,6 +31,8 @@ class Question implements Component {
     this.points = points;
     // this.selectedOption =;
     // this.selectedOptionId = "";
+    // initializing the selectedOption to empty array
+    this.selectedOption = [];
     this.isAnswered = false;
     // initialized to nothing
     this.isAnsweredCorrectly = null;
@@ -37,14 +45,32 @@ class Question implements Component {
     } = event;
 
     // selecting the option chosen by user
-    this.selectedOption = this.options.find(
-      (option) => option.optionId === selectedOptionId,
+    // this.selectedOption = this.options.find(
+    //   (option) => option.optionId === selectedOptionId,
+    // );
+
+    // forcing the typeconverion to Option
+    // let selectedAnswer: Option = this.options.find(
+    //   (option) => option.optionId === selectedOptionId,
+    // ) as Option;
+
+    // this.selectedOption.push(selectedAnswer);
+
+    //  the above two steps are combined into a single step
+    this.selectedOption.push(
+      this.options.find(
+        (option) => option.optionId === selectedOptionId,
+      ) as Option,
     );
 
-    // console.log("======Selected option", this.selectedOption);
     this.isAnswered = true;
     // is this question answered correctly
-    this.isAnsweredCorrectly = this.selectedOption!.isCorrect;
+
+    // AND operation for all the answers that are correct
+    this.isAnsweredCorrectly = this.selectedOption.every(
+      (answer) => answer.isCorrect,
+    );
+    // this.isAnsweredCorrectly = this.selectedOption!.isCorrect;
   }
 
   render() {
@@ -70,7 +96,8 @@ class Question implements Component {
       // this is to identify each option uniquely
       optionInput.name = this.questionId;
       optionInput.id = option.optionId;
-      optionInput.type = "radio";
+      // optionInput.type = "radio";
+      optionInput.type = "checkbox";
 
       // attach event listeners
       optionInput.onchange = this.selectAnswer.bind(this);

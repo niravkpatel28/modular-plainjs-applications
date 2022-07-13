@@ -22,9 +22,12 @@ class Quiz {
         this.questions.forEach((question) => {
             console.log("Selected answers", question.selectedOption);
             // incase no option is selected
-            if (question.selectedOption && question.selectedOption.isCorrect) {
+            if (question.selectedOption.length && question.isAnsweredCorrectly) {
                 this.finalScore = this.finalScore + question.points;
             }
+            // if (question.selectedOption && question.selectedOption!.isCorrect) {
+            //   this.finalScore = this.finalScore + question.points;
+            // }
         });
         const submitButton = document.querySelector(`#${this.quizId} button[type="submit"]`);
         // what will this element be
