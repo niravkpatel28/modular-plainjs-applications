@@ -7,6 +7,8 @@ class Question {
         this.points = points;
         // this.selectedOption =;
         // this.selectedOptionId = "";
+        // initializing the selectedOption to empty array
+        this.selectedOption = [];
         this.isAnswered = false;
         // initialized to nothing
         this.isAnsweredCorrectly = null;
@@ -15,11 +17,21 @@ class Question {
         // this will be bound to the onSelect option of the input box
         const { target: { id: selectedOptionId }, } = event;
         // selecting the option chosen by user
-        this.selectedOption = this.options.find((option) => option.optionId === selectedOptionId);
-        // console.log("======Selected option", this.selectedOption);
+        // this.selectedOption = this.options.find(
+        //   (option) => option.optionId === selectedOptionId,
+        // );
+        // forcing the typeconverion to Option
+        // let selectedAnswer: Option = this.options.find(
+        //   (option) => option.optionId === selectedOptionId,
+        // ) as Option;
+        // this.selectedOption.push(selectedAnswer);
+        //  the above two steps are combined into a single step
+        this.selectedOption.push(this.options.find((option) => option.optionId === selectedOptionId));
         this.isAnswered = true;
         // is this question answered correctly
-        this.isAnsweredCorrectly = this.selectedOption.isCorrect;
+        // AND operation for all the answers that are correct
+        this.isAnsweredCorrectly = this.selectedOption.every((answer) => answer.isCorrect);
+        // this.isAnsweredCorrectly = this.selectedOption!.isCorrect;
     }
     render() {
         const questionContainer = document.createElement("div");
@@ -40,7 +52,8 @@ class Question {
             // this is to identify each option uniquely
             optionInput.name = this.questionId;
             optionInput.id = option.optionId;
-            optionInput.type = "radio";
+            // optionInput.type = "radio";
+            optionInput.type = "checkbox";
             // attach event listeners
             optionInput.onchange = this.selectAnswer.bind(this);
             optionInput.value = JSON.stringify(option);
