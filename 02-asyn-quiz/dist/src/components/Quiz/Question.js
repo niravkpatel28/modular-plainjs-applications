@@ -5,33 +5,62 @@ class Question {
         this.questionText = text;
         this.options = [...options];
         this.points = points;
-        // this.selectedOption =;
-        // this.selectedOptionId = "";
         // initializing the selectedOption to empty array
-        this.selectedOption = [];
+        this.selectedOptions = [];
         this.isAnswered = false;
-        // initialized to nothing
+        this.selectedOptionsId = [];
         this.isAnsweredCorrectly = null;
+        this.correctOptions = this.options.filter((option) => option.isCorrect);
+        this.correctOptionsId = this.correctOptions.map((option) => option.optionId);
     }
-    selectAnswer(event) {
-        // this will be bound to the onSelect option of the input box
-        const { target: { id: selectedOptionId }, } = event;
-        // selecting the option chosen by user
-        // this.selectedOption = this.options.find(
-        //   (option) => option.optionId === selectedOptionId,
-        // );
-        // forcing the typeconverion to Option
-        // let selectedAnswer: Option = this.options.find(
-        //   (option) => option.optionId === selectedOptionId,
-        // ) as Option;
-        // this.selectedOption.push(selectedAnswer);
-        //  the above two steps are combined into a single step
-        this.selectedOption.push(this.options.find((option) => option.optionId === selectedOptionId));
-        this.isAnswered = true;
-        // is this question answered correctly
-        // AND operation for all the answers that are correct
-        this.isAnsweredCorrectly = this.selectedOption.every((answer) => answer.isCorrect);
-        // this.isAnsweredCorrectly = this.selectedOption!.isCorrect;
+    // change handler will have to perform two operations
+    //  1. when option is selected
+    //  2. When option is unselected
+    // Both can be written in a single change handler
+    // or can call two different functions based on the event
+    changeHandler(event) {
+        const { target: { checked, id }, } = event;
+        if (checked) {
+            // update selected options
+            this.addOption(id);
+        }
+        else {
+            // remove id from selected options
+            this.removeOption(id);
+        }
+    }
+    addOption(selectedOptionId) {
+        // add the given id to this.selectedOptionsId
+        this.selectedOptionsId.push(selectedOptionId);
+        // add selected Option to this.selectedOptions
+        this.selectedOptions.push(this.options.find((option) => option.optionId === selectedOptionId));
+        // update isCorrectly answered (later can be its own method)
+        return this.updateAnswerStatus();
+    }
+    removeOption(unCheckedOptionId) {
+        // remove selected id from this.selectedOptionsId;
+        this.selectedOptionsId = this.selectedOptionsId.filter((optionId) => {
+            return optionId !== unCheckedOptionId;
+        });
+        // remove selected Option from this.selectedOptions
+        this.selectedOptions = this.selectedOptions.filter((options) => {
+            return options.optionId !== unCheckedOptionId;
+        });
+        // update isCorrectly answered (put it in its own method)
+        return this.updateAnswerStatus();
+    }
+    updateAnswerStatus() {
+        // check if the length of selectedOptions and correctOptions is same
+        // check if all ids in correctOptionsId are present in selectedOptionsId
+        if (this.selectedOptionsId.length === this.correctOptionsId.length) {
+            this.isAnsweredCorrectly = this.correctOptionsId.every((optionId) => {
+                return this.selectedOptionsId.includes(optionId);
+            });
+        }
+        else {
+            this.isAnsweredCorrectly = false;
+        }
+        console.log("Is answer correct", this.isAnsweredCorrectly);
     }
     render() {
         const questionContainer = document.createElement("div");
@@ -55,7 +84,8 @@ class Question {
             // optionInput.type = "radio";
             optionInput.type = "checkbox";
             // attach event listeners
-            optionInput.onchange = this.selectAnswer.bind(this);
+            // optionInput.onchange = this.selectAnswer.bind(this);
+            optionInput.onchange = this.changeHandler.bind(this);
             optionInput.value = JSON.stringify(option);
             // incase multiple options have the same id
             optionLabel.htmlFor = option.optionId;

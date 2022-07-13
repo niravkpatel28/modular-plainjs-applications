@@ -20,57 +20,85 @@ class Question implements Component {
   // the idea is to add all the selected options into the array
   // another technique can be to add only the optionId into the array.
   // This can be modified based on the complexity of the logic
-  selectedOption: Option[];
+  selectedOptions: Option[];
   isAnswered: boolean;
   isAnsweredCorrectly: boolean | null;
+  correctOptions: Option[];
+  correctOptionsId: string[];
+  selectedOptionsId: string[];
 
   constructor({ text, options, points }: QuestionConfig) {
     this.questionId = generateUniqueId({ prefix: "question" });
     this.questionText = text;
     this.options = [...options];
     this.points = points;
-    // this.selectedOption =;
-    // this.selectedOptionId = "";
     // initializing the selectedOption to empty array
-    this.selectedOption = [];
+    this.selectedOptions = [];
     this.isAnswered = false;
-    // initialized to nothing
+    this.selectedOptionsId = [];
     this.isAnsweredCorrectly = null;
+    this.correctOptions = this.options.filter((option) => option.isCorrect);
+    this.correctOptionsId = this.correctOptions.map(
+      (option) => option.optionId,
+    );
   }
 
-  selectAnswer(event: any) {
-    // this will be bound to the onSelect option of the input box
+  // change handler will have to perform two operations
+  //  1. when option is selected
+  //  2. When option is unselected
+  // Both can be written in a single change handler
+  // or can call two different functions based on the event
+
+  changeHandler(event: any) {
     const {
-      target: { id: selectedOptionId },
+      target: { checked, id },
     } = event;
+    if (checked) {
+      // update selected options
+      this.addOption(id);
+    } else {
+      // remove id from selected options
+      this.removeOption(id);
+    }
+  }
 
-    // selecting the option chosen by user
-    // this.selectedOption = this.options.find(
-    //   (option) => option.optionId === selectedOptionId,
-    // );
-
-    // forcing the typeconverion to Option
-    // let selectedAnswer: Option = this.options.find(
-    //   (option) => option.optionId === selectedOptionId,
-    // ) as Option;
-
-    // this.selectedOption.push(selectedAnswer);
-
-    //  the above two steps are combined into a single step
-    this.selectedOption.push(
+  addOption(selectedOptionId: string) {
+    // add the given id to this.selectedOptionsId
+    this.selectedOptionsId.push(selectedOptionId);
+    // add selected Option to this.selectedOptions
+    this.selectedOptions.push(
       this.options.find(
         (option) => option.optionId === selectedOptionId,
       ) as Option,
     );
+    // update isCorrectly answered (later can be its own method)
+    return this.updateAnswerStatus();
+  }
 
-    this.isAnswered = true;
-    // is this question answered correctly
+  removeOption(unCheckedOptionId: string) {
+    // remove selected id from this.selectedOptionsId;
+    this.selectedOptionsId = this.selectedOptionsId.filter((optionId) => {
+      return optionId !== unCheckedOptionId;
+    });
+    // remove selected Option from this.selectedOptions
+    this.selectedOptions = this.selectedOptions.filter((options) => {
+      return options.optionId !== unCheckedOptionId;
+    });
+    // update isCorrectly answered (put it in its own method)
+    return this.updateAnswerStatus();
+  }
 
-    // AND operation for all the answers that are correct
-    this.isAnsweredCorrectly = this.selectedOption.every(
-      (answer) => answer.isCorrect,
-    );
-    // this.isAnsweredCorrectly = this.selectedOption!.isCorrect;
+  updateAnswerStatus() {
+    // check if the length of selectedOptions and correctOptions is same
+    // check if all ids in correctOptionsId are present in selectedOptionsId
+    if (this.selectedOptionsId.length === this.correctOptionsId.length) {
+      this.isAnsweredCorrectly = this.correctOptionsId.every((optionId) => {
+        return this.selectedOptionsId.includes(optionId);
+      });
+    } else {
+      this.isAnsweredCorrectly = false;
+    }
+    console.log("Is answer correct", this.isAnsweredCorrectly);
   }
 
   render() {
@@ -100,7 +128,9 @@ class Question implements Component {
       optionInput.type = "checkbox";
 
       // attach event listeners
-      optionInput.onchange = this.selectAnswer.bind(this);
+      // optionInput.onchange = this.selectAnswer.bind(this);
+      optionInput.onchange = this.changeHandler.bind(this);
+
       optionInput.value = JSON.stringify(option);
 
       // incase multiple options have the same id

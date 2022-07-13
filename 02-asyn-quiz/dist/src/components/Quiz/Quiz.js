@@ -20,9 +20,9 @@ class Quiz {
         this.isSubmitted = true;
         // calculate final score==>
         this.questions.forEach((question) => {
-            console.log("Selected answers", question.selectedOption);
+            console.log("Selected answers", question.selectedOptions);
             // incase no option is selected
-            if (question.selectedOption.length && question.isAnsweredCorrectly) {
+            if (question.selectedOptions.length && question.isAnsweredCorrectly) {
                 this.finalScore = this.finalScore + question.points;
             }
             // if (question.selectedOption && question.selectedOption!.isCorrect) {
