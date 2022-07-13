@@ -23,8 +23,8 @@
         },
         {
           "optionId": "option-wk9my9negkg",
-          "optionText": "None of these",
-          "isCorrect": false
+          "optionText": "All angles are 60 degree",
+          "isCorrect": true
         }
       ],
       "points": 1,
@@ -71,8 +71,8 @@
         },
         {
           "optionId": "option-tsaxz8jjfrp",
-          "optionText": "2",
-          "isCorrect": false
+          "optionText": "8-4",
+          "isCorrect": true
         },
         {
           "optionId": "option-lji49sm8t1",
