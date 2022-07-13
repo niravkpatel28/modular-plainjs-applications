@@ -98,7 +98,6 @@ class Question implements Component {
     } else {
       this.isAnsweredCorrectly = false;
     }
-    console.log("Is answer correct", this.isAnsweredCorrectly);
   }
 
   render() {
@@ -124,8 +123,13 @@ class Question implements Component {
       // this is to identify each option uniquely
       optionInput.name = this.questionId;
       optionInput.id = option.optionId;
-      // optionInput.type = "radio";
-      optionInput.type = "checkbox";
+
+      // if there are multiple correct answers the options will have checkbox
+      if (this.correctOptionsId.length > 1) {
+        optionInput.type = "checkbox";
+      } else {
+        optionInput.type = "radio";
+      }
 
       // attach event listeners
       // optionInput.onchange = this.selectAnswer.bind(this);
